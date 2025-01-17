@@ -4,12 +4,13 @@ import tkinter as tk
 from functions import barcode_function as bf , utils , menu_function as mf
 
 class Application(tk.Tk):
-    def __init__(self , title="Barcode Generator"):
+    def __init__(self , title="Barcode Generator" , options: dict = None):
         tk.Tk.__init__(self)
         self.title(title)
         self.geometry("350x200")
         self.minsize(350, 200)
         self.maxsize(350, 200)
+        self.options = options
         self.build_menu()
         self.build_widgets()
     
@@ -42,6 +43,6 @@ class Application(tk.Tk):
         importmenu.add_command(label="Fichier CSV", command= lambda: self.import_csv)
         menubar.add_cascade(label="Fichier", menu=filemenu)
         filemenu.add_cascade(label="Importer", menu=importmenu)
-        menubar.add_command(label="Options", command= mf.open_option_windows)
+        menubar.add_command(label="Options", command= lambda: mf.open_option_windows(self))
         self.config(menu=menubar)
     

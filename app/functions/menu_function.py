@@ -5,5 +5,7 @@ from classes import OptionWindow , MainWindow
 
 
 def open_option_windows(parent : MainWindow.Application):
+    print("Opening option window...")
     OptionWindow.OptionWindow(parent)
-    print("Options")   
+
+   
