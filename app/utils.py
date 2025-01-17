@@ -14,22 +14,19 @@ def calculate_size(barcode) -> int:
 def merge_images(img_path : list) -> None:
     '''Merge list of images'''
     final_img_size = 0
-    with open("core.toml") as f:
+    with open("app/core.toml") as f:
         config = toml.load(f)
         color_mode = config["image"]["color_mode"]
+        format = config["image"]["image_format"]
         color = config["image"]["color"]
         height = config["image"]["height"]
     
-    for img in img_path:
-        image = Image.open(img)
-        final_img_size += image.size
+
     
-    
-    final_img = Image.new(color_mode, final_img_size)
-    previous_size = 0
     for index, img in enumerate(img_path):
         image = Image.open(img)
+        arrow_image = Image.open("app/ressources/arrow_up.jpeg")
+        final_img = Image.new(mode=color_mode, size=final_img_size, color=color)
         final_img.paste(image, (previous_size, 0))
         previous_size += image.size[0]
-
-    final_img.save("final_image.jpeg")
+        final_img.save(f"final_image.jpeg")
