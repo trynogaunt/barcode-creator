@@ -34,3 +34,4 @@ def merge_images(img_path : list) -> list:
         final_img.save(f"{register_folder}/{img}.jpeg")
         merged_img.append(f"{register_folder}/{img}.jpeg")
         print(merged_img[index])
+    return merged_img

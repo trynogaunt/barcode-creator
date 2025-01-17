@@ -29,7 +29,7 @@ def generate_barcode(barcode_data: list) -> list:
 
 def generate_pdf(print_barcode: list) -> None:
     """Generate PDF with barcode images"""
-    with open("core.toml") as f:
+    with open("app/core.toml") as f:
         config = toml.load(f)
     # Get configuration
         folder_path = config["pdf"]["folder_target"]
@@ -49,7 +49,8 @@ def generate_pdf(print_barcode: list) -> None:
     for img in print_barcode:
         print(img)
         image = Image.open(img)
-        width, height = image.size
+        resized_image = image.resize((100, 50))
+        width, height = resized_image.size
 
         # Scale image if it is too wide
         if width > page_width:
