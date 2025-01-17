@@ -1,7 +1,9 @@
 import toml
 import os
+from fpdf import FPDF
 from barcode import Code128
 from barcode.writer import SVGWriter, ImageWriter
+from PIL import Image
 
 #region functions
 # Generate barcode images
@@ -27,6 +29,50 @@ def generate_barcode(barcode_data: list) -> list:
 
 def generate_pdf(print_barcode: list) -> None:
     """Generate PDF with barcode images"""
-    # Generate PDF
-    pass
+    with open("core.toml") as f:
+        config = toml.load(f)
+    # Get configuration
+        folder_path = config["pdf"]["folder_target"]
+        pdf_format = config["pdf"]["page_size"]
+        pdf_unit = config["pdf"]["unit"]
+        pdf_name = config["pdf"]["file_name"]
+
+    # Create PDF
+    pdf = FPDF(unit= pdf_unit, format=pdf_format)
+    pdf.add_page()
+    
+    x, y = 0, 0
+    max_height = 0
+    page_width = pdf.w - pdf.l_margin - pdf.r_margin
+    page_height = pdf.h - pdf.t_margin - pdf.b_margin
+
+    for img in print_barcode:
+        print(img)
+        image = Image.open(img)
+        width, height = image.size
+
+        # Scale image if it is too wide
+        if width > page_width:
+            scale = page_width / width
+            width = page_width
+            height = height * scale
+
+        # Move to next row if image doesn't fit horizontally
+        if x + width > page_width:
+            x = 0
+            y += max_height
+            max_height = 0
+
+        # Move to next page if image doesn't fit vertically
+        if y + height > page_height:
+            pdf.add_page()
+            x, y = 0, 0
+            max_height = 0
+
+        pdf.image(img, x, y, width, height)
+        x += width
+        if height > max_height:
+            max_height = height
+
+    pdf.output(folder_path)
 #endregion
