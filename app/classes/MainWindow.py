@@ -2,17 +2,27 @@ import os
 import sys
 import tkinter as tk
 from functions import barcode_function as bf , utils , menu_function as mf
+import toml
 
 class Application(tk.Tk):
-    def __init__(self , title : str="Barcode Generator" , options : dict = {}):
+    def __init__(self , title : str="Barcode Generator" , options : dict= None):
         tk.Tk.__init__(self)
+        with open("app/core.toml") as f:
+            config = toml.load(f)
+            print("Loading configuration...")
+            title = config["app"]["name"]
+            for key, value in config.items():
+                if key == "options":
+                    options = value
+                    print(f"Options {options} loaded")
         self.title(title)
         self.geometry("350x200")
         self.minsize(350, 200)
         self.maxsize(350, 200)
         self.options = options
-        self.build_menu()
-        self.build_widgets()
+    
+    def get_loaded_options(self):
+        return self.options
     
     def create_barcode(self):
         print("Creating barcode...")
@@ -46,3 +56,7 @@ class Application(tk.Tk):
         menubar.add_command(label="Options", command= lambda: mf.open_option_windows(self, self.options))
         self.config(menu=menubar)
     
+    def run(self):
+        self.build_widgets()
+        self.build_menu()
+        self.mainloop()
