@@ -4,8 +4,8 @@ import sys
 from classes import OptionWindow , MainWindow
 
 
-def open_option_windows(parent : MainWindow.Application):
+def open_option_windows(parent : MainWindow.Application , options : dict = None):
     print("Opening option window...")
-    OptionWindow.OptionWindow(parent)
+    OptionWindow.OptionWindow(parent , options = parent.options)
 
    
