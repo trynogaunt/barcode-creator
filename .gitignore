@@ -3,3 +3,4 @@ app/core.toml
 barcodes
 __pycache__
 etiquettes
+app/ressources

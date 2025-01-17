@@ -15,6 +15,7 @@ class Application(tk.Tk):
         self.geometry("350x200")
         self.minsize(350, 200)
         self.maxsize(350, 200)
+        self.build_menu()
         self.build_widgets()
     
     def create_barcode(self):
@@ -37,7 +38,17 @@ class Application(tk.Tk):
         self.grid_columnconfigure(0, weight=1, minsize=100)
         self.grid_columnconfigure(1, weight=1, minsize=100)
         self.grid_rowconfigure(0, weight=1, minsize=50)
-        self.grid_rowconfigure(1, weight=1, minsize=50)       
+        self.grid_rowconfigure(1, weight=1, minsize=50)
+
+    def build_menu(self):       
+        menubar = tk.Menu(self)
+        filemenu = tk.Menu(menubar, tearoff=0)
+        importmenu = tk.Menu(filemenu, tearoff=0)
+        importmenu.add_command(label="Fichier CSV", command= lambda: self.import_csv)
+        menubar.add_cascade(label="Fichier", menu=filemenu)
+        filemenu.add_cascade(label="Importer", menu=importmenu)
+        menubar.add_command(label="Options", command="")
+        self.config(menu=menubar)
 
 if __name__ == "__main__":
     app = Application()
