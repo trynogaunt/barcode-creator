@@ -1,4 +1,10 @@
+import os
+import sys
 import tkinter as tk
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
+
+import barcode_function as bf
 
 class Application(tk.Tk):
     def __init__(self):
@@ -29,7 +35,7 @@ class Application(tk.Tk):
         self.grid_rowconfigure(2, weight=1, minsize=100)
 
 if __name__ == "__main__":
-    app = Application()
-    app.mainloop()
+    input("Press Enter to continue...")
+    
 
 
