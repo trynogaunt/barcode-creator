@@ -1,3 +1,4 @@
+from asyncio import sleep
 import os
 import sys
 import tkinter as tk
@@ -20,8 +21,8 @@ class Application(tk.Tk):
         print("Creating barcode...")
         barcode = self.barcode_entry.get()
         barcode_data = bf.generate_barcode([barcode])
-        utils.merge_images(barcode_data)
-        #bf.generate_pdf(barcode)
+        merged_barcodes = utils.merge_images(barcode_data)
+        bf.generate_pdf(merged_barcodes)
     
     def build_widgets(self):
         self.ean_label = tk.Label(self, text="Enter the barcode number: ")
