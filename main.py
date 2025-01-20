@@ -1,19 +1,16 @@
 import os
 import sys
-import tkinter as tk
-import toml
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
+import classes.MainWindow as MainWindow
+from functions import barcode_function, utils
 
-import functions.barcode_function as bf
-import functions.utils as utils
-import functions.menu_function as mf
-from classes.MainWindow import Application
 
 
 
 if __name__ == "__main__":
-        app = Application()
+        app = MainWindow.Application()
         print("Starting application...")
         app.run()
         print("Application closed")

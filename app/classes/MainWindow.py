@@ -1,7 +1,7 @@
 import os
 import sys
 import tkinter as tk
-from functions import barcode_function as bf , utils , menu_function as mf
+from functions import barcode_function as bf , utils
 import toml
 
 class Application(tk.Tk):
@@ -12,7 +12,7 @@ class Application(tk.Tk):
             print("Loading configuration...")
             title = config["app"]["name"]
             for key, value in config.items():
-                if key == "options":
+                if key == "path":
                     options = value
                     print(f"Options {options} loaded")
         self.title(title)
@@ -50,10 +50,10 @@ class Application(tk.Tk):
         menubar = tk.Menu(self)
         filemenu = tk.Menu(menubar, tearoff=0)
         importmenu = tk.Menu(filemenu, tearoff=0)
-        importmenu.add_command(label="Fichier CSV", command= lambda: self.import_csv)
+        importmenu.add_command(label="Fichier CSV", command= lambda: utils.create_barcode_from_csv())
         menubar.add_cascade(label="Fichier", menu=filemenu)
         filemenu.add_cascade(label="Importer", menu=importmenu)
-        menubar.add_command(label="Options", command= lambda: mf.open_option_windows(self, self.options))
+        #menubar.add_command(label="Options", command= lambda: mf.open_option_windows(self, self.options))
         self.config(menu=menubar)
     
     def run(self):

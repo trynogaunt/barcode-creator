@@ -36,6 +36,8 @@ def generate_pdf(print_barcode: list) -> None:
         pdf_format = config["pdf"]["page_size"]
         pdf_unit = config["pdf"]["unit"]
         pdf_name = config["pdf"]["file_name"]
+        pdf_image_width = config["pdf"]["image_width"]
+        pdf_image_height = config["pdf"]["image_height"]
 
     # Create PDF
     pdf = FPDF(unit= pdf_unit, format=pdf_format)
@@ -49,7 +51,7 @@ def generate_pdf(print_barcode: list) -> None:
     for img in print_barcode:
         print(img)
         image = Image.open(img)
-        resized_image = image.resize((100, 50))
+        resized_image = image.resize((round(image.size[0]/7), round(image.size[1]/7)))
         width, height = resized_image.size
 
         # Scale image if it is too wide
@@ -77,3 +79,4 @@ def generate_pdf(print_barcode: list) -> None:
 
     pdf.output(folder_path)
 #endregion
+
